@@ -3,6 +3,7 @@
   "name": "Tabmoor",
   "version": "1.0.0",
   "description": "Keeps your favourite links open as pinned tabs every time Firefox starts. No duplicates, no lost tabs.",
+  "homepage_url": "https://github.com/MohamadAlayan/tabmoor",
   "icons": {
     "16": "icons/tabmoor-small.svg",
     "32": "icons/tabmoor-small.svg",

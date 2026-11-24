@@ -31,7 +31,7 @@ Firefox only keeps add-ons signed by Mozilla. Signing is free, takes a few minut
 ### Option 1: Sign it yourself (recommended, works in normal Firefox)
 
 1. Build the package: `python scripts/build.py` → creates `dist/tabmoor-1.0.0.xpi`.
-   (Or download it from this repo's Releases page, if one is published.)
+   (Or download it from the [Releases page](https://github.com/MohamadAlayan/tabmoor/releases), if one is published.)
 2. Go to the [Firefox Add-on Developer Hub](https://addons.mozilla.org/developers/) and sign in with a Firefox account.
 3. Click **Submit a New Add-on**, then choose **On your own** (this keeps it private/unlisted).
 4. Upload the `.xpi`. Mozilla's automatic review usually signs it within minutes.
