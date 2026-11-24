@@ -1,4 +1,4 @@
-import { getLinks } from '../lib/links.js';
+import { getLinks, getSettings } from '../lib/storage.js';
 
 const statusEl = document.getElementById('status');
 const fixButton = document.getElementById('fix');
@@ -55,3 +55,8 @@ document.getElementById('settings').addEventListener('click', (event) => {
 });
 
 refreshCount();
+getSettings(browser).then(({ closeUnlisted }) => {
+  if (!closeUnlisted) {
+    document.getElementById('fix-hint').textContent = 'Opens missing links and puts your pinned tabs back in order.';
+  }
+});

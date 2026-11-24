@@ -13,7 +13,9 @@ Tabmoor keeps a list of your links, and every time Firefox opens it makes your p
 
 - **Opens your links as pinned tabs on every start**, in the order you choose.
 - **Never duplicates.** If a site is already open (restored from last time, or as a normal tab), Tabmoor pins that tab instead of opening a second copy.
-- **Keeps the pinned row clean.** Pinned tabs that aren't on your list are closed.
+- **Keeps the pinned row clean.** Pinned tabs that aren't on your list are closed. You can switch this off in the settings, and Ctrl+Shift+T brings a closed tab back.
+- **Rescues pinned tabs when you close the wrong window.** Firefox normally throws pinned tabs away when you close their window, even if another window is open. Tabmoor brings them back in the window that's left.
+- **Leaves your tab groups alone.** A tab inside a tab group is never pulled out and pinned.
 - **Doesn't reload sites you're using.** A tab still counts as yours after you click around inside the site. For example, a saved Gmail inbox tab that's now showing an email.
 - **Toolbar button:**
   - **Fix pinned tabs:** restore everything right now, e.g. after closing one by mistake.
@@ -74,7 +76,7 @@ extension/            the add-on itself (this folder is what gets packaged)
   background.js       startup, install, and toolbar-button requests
   lib/match.js        pure logic: matching tabs to links, planning changes
   lib/reconcile.js    applies the plan to real tabs
-  lib/links.js        saved-list storage
+  lib/storage.js      saved list, settings, and which window holds the pinned tabs
   popup/              toolbar button
   options/            settings page
   icons/              logo (full and small)

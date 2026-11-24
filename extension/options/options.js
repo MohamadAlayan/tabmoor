@@ -1,13 +1,15 @@
 import { mergeLinks, normalizeLink, planReconcile } from '../lib/match.js';
-import { getLinks, saveLinks, watchLinks } from '../lib/links.js';
+import { getLinks, getSettings, saveLinks, saveSettings, watchLinks } from '../lib/storage.js';
 
 const listEl = document.getElementById('list');
 const emptyEl = document.getElementById('empty');
 const statusEl = document.getElementById('status');
 const input = document.getElementById('new-link');
 const rowTemplate = document.getElementById('row');
+const closeUnlistedBox = document.getElementById('close-unlisted');
 
 let links = [];
+let settings = await getSettings(browser);
 
 function showStatus(text, kind) {
   statusEl.textContent = text;
@@ -100,7 +102,7 @@ document.getElementById('apply').addEventListener('click', async () => {
   }
   const win = await browser.windows.getCurrent();
   const tabs = await browser.tabs.query({ windowId: win.id });
-  const { toClose } = planReconcile(tabs, links);
+  const { toClose } = planReconcile(tabs, links, { closeUnlisted: settings.closeUnlisted });
   if (toClose.length) {
     const ok = window.confirm(
       `This will close ${toClose.length} pinned tab${toClose.length === 1 ? '' : 's'} in this window that ${toClose.length === 1 ? "isn't" : "aren't"} on your list. Continue?`,
@@ -114,6 +116,23 @@ document.getElementById('apply').addEventListener('click', async () => {
     showStatus(`Applied, but couldn't open: ${result.failed.join(', ')}`, 'error');
   } else {
     showStatus('Applied to this window.', 'ok');
+  }
+});
+
+closeUnlistedBox.checked = settings.closeUnlisted;
+closeUnlistedBox.addEventListener('change', async () => {
+  try {
+    await saveSettings(browser, { closeUnlisted: closeUnlistedBox.checked });
+    settings = { ...settings, closeUnlisted: closeUnlistedBox.checked };
+    showStatus(
+      closeUnlistedBox.checked
+        ? 'Pinned tabs not on your list will be closed.'
+        : 'Pinned tabs not on your list will be kept.',
+      'ok',
+    );
+  } catch (error) {
+    closeUnlistedBox.checked = settings.closeUnlisted;
+    showStatus(`Couldn't save: ${error.message}`, 'error');
   }
 });
 

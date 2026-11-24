@@ -109,6 +109,24 @@ test('planReconcile: two links on one site each keep their own tab', () => {
   assert.deepEqual(plan.toOpen, []);
 });
 
+test('planReconcile: never pulls a tab out of a tab group', () => {
+  const tabs = [
+    { id: 1, url: 'https://a.com/', pinned: false, index: 0, groupId: 7 },  // in a group -> leave alone
+    { id: 2, url: 'https://b.com/', pinned: false, index: 1, groupId: -1 }, // not grouped -> reuse
+  ];
+  const plan = planReconcile(tabs, ['https://a.com/', 'https://b.com/']);
+  assert.deepEqual(plan.order, [null, 2]);
+  assert.deepEqual(plan.toPin, [2]);
+  assert.deepEqual(plan.toOpen, [0]);
+});
+
+test('planReconcile: closeUnlisted=false keeps pinned tabs that are not on the list', () => {
+  const tabs = [tab(1, 'https://old.com/', true, 0), tab(2, 'https://a.com/', true, 1)];
+  const plan = planReconcile(tabs, ['https://a.com/'], { closeUnlisted: false });
+  assert.deepEqual(plan.order, [2]);
+  assert.deepEqual(plan.toClose, []);
+});
+
 test('planReconcile: a tab that wandered into a more specific saved path can still fill the general link', () => {
   // The root-link tab was navigated into /docs/2, and /docs already has its own tab.
   const tabs = [

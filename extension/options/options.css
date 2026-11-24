@@ -85,4 +85,19 @@ h2 { font-size: 16px; margin: 24px 0 4px; }
   margin-top: 16px;
 }
 
-.tip { font-size: 12px; margin: 20px 0 0; }
+.toggle {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  margin-top: 10px;
+  padding: 12px 14px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  cursor: pointer;
+}
+.toggle input { margin: 3px 0 0; width: 16px; height: 16px; accent-color: var(--accent); flex: none; }
+.toggle-text { display: flex; flex-direction: column; gap: 2px; }
+.toggle-text .muted { font-size: 12px; }
+
+.note { font-size: 12px; margin: 12px 0 0; }
+.tip { font-size: 12px; margin: 8px 0 0; }

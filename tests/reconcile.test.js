@@ -5,6 +5,7 @@ import {
   findMainWindow,
   waitForQuiet,
   createSerializer,
+  rescueAfterWindowClosed,
 } from '../extension/lib/reconcile.js';
 
 // A tiny in-memory stand-in for Firefox's tabs/windows APIs.
@@ -86,6 +87,67 @@ test('reconcileWindow opens new tabs before closing, so the window never empties
   const kinds = api.calls.map((c) => c[0]);
   assert.ok(kinds.indexOf('create') < kinds.indexOf('remove'));
   assert.deepEqual(api.snapshot(), [{ url: 'https://a.com/', pinned: true }]);
+});
+
+test('reconcileWindow with closeUnlisted=false keeps extra pinned tabs, after yours', async () => {
+  const api = fakeBrowser([
+    { id: 1, url: 'https://old.com/', pinned: true },
+    { id: 2, url: 'https://a.com/', pinned: true },
+  ]);
+  const result = await reconcileWindow(api, 1, ['https://a.com/', 'https://b.com/'], { closeUnlisted: false });
+  assert.deepEqual(api.snapshot(), [
+    { url: 'https://a.com/', pinned: true },
+    { url: 'https://b.com/', pinned: true },
+    { url: 'https://old.com/', pinned: true },
+  ]);
+  assert.equal(result.closed, 0);
+});
+
+test('rescueAfterWindowClosed restores pinned tabs in the window that is left, closing nothing', async () => {
+  // Window 1 is what remains; the pinned tabs lived in window 9, which was just closed.
+  const api = fakeBrowser(
+    [
+      { id: 1, url: 'https://work-thing.com/', pinned: true },
+      { id: 2, url: 'https://a.com/page', pinned: false },
+    ],
+    { windows: [{ id: 1, focused: true, incognito: false }] },
+  );
+  const result = await rescueAfterWindowClosed(api, {
+    removedWindowId: 9,
+    managedWindowId: 9,
+    links: ['https://a.com/', 'https://b.com/'],
+    delayMs: 1,
+  });
+  assert.equal(result.windowId, 1);
+  assert.deepEqual(api.snapshot(), [
+    { url: 'https://a.com/page', pinned: true },
+    { url: 'https://b.com/', pinned: true },
+    { url: 'https://work-thing.com/', pinned: true },
+  ]);
+});
+
+test('rescueAfterWindowClosed ignores windows that did not hold the pinned tabs', async () => {
+  const api = fakeBrowser([]);
+  const result = await rescueAfterWindowClosed(api, {
+    removedWindowId: 5,
+    managedWindowId: 9,
+    links: ['https://a.com/'],
+    delayMs: 1,
+  });
+  assert.equal(result, null);
+  assert.deepEqual(api.calls, []);
+});
+
+test('rescueAfterWindowClosed does nothing when no window is left (Firefox quitting)', async () => {
+  const api = fakeBrowser([], { windows: [] });
+  const result = await rescueAfterWindowClosed(api, {
+    removedWindowId: 9,
+    managedWindowId: 9,
+    links: ['https://a.com/'],
+    delayMs: 1,
+  });
+  assert.equal(result, null);
+  assert.deepEqual(api.calls, []);
 });
 
 test('reconcileWindow keeps going when one link cannot be opened', async () => {

@@ -86,25 +86,33 @@ export function mergeLinks(existing, incoming) {
   return result;
 }
 
+/** True for a normal tab that sits inside one of Firefox's tab groups. */
+function inTabGroup(tab) {
+  return typeof tab.groupId === 'number' && tab.groupId !== -1;
+}
+
 /**
  * Decide how to make a window's pinned tabs match the saved list.
  *
- * @param {{id:number, url:string, pinned:boolean, index:number}[]} tabs  all tabs in the window
+ * @param {{id:number, url:string, pinned:boolean, index:number, groupId?:number}[]} tabs  all tabs in the window
  * @param {string[]} links  saved links, in the order the pinned tabs should appear
+ * @param {{closeUnlisted?: boolean}} [options]  closeUnlisted (default true): close pinned tabs on no link
  * @returns {{order:(number|null)[], toPin:number[], toOpen:number[], toClose:number[]}}
  *   order   – per link, the id of the tab reused for it (null = must be opened)
  *   toPin   – ids of reused tabs that are not pinned yet
  *   toOpen  – indexes into `links` that need a new pinned tab
  *   toClose – ids of pinned tabs that belong to no link
  */
-export function planReconcile(tabs, links) {
+export function planReconcile(tabs, links, { closeUnlisted = true } = {}) {
   const valid = links.map((link) => normalizeLink(link) !== null);
   if (!valid.some(Boolean)) return { order: [], toPin: [], toOpen: [], toClose: [] };
 
   // Every (tab, link) pair that fits, best first: most specific link,
   // then a tab that is already pinned, then the left-most tab.
+  // Tabs inside a tab group are never pulled out to be pinned.
   const pairs = [];
   for (const tab of tabs) {
+    if (!tab.pinned && inTabGroup(tab)) continue;
     links.forEach((link, linkIndex) => {
       if (!valid[linkIndex]) return;
       const score = matchScore(tab.url, link);
@@ -131,6 +139,8 @@ export function planReconcile(tabs, links) {
     order,
     toPin: order.filter((id) => id !== null && !byId.get(id).pinned),
     toOpen: order.flatMap((id, i) => (id === null && valid[i] ? [i] : [])),
-    toClose: tabs.filter((tab) => tab.pinned && !used.has(tab.id)).map((tab) => tab.id),
+    toClose: closeUnlisted
+      ? tabs.filter((tab) => tab.pinned && !used.has(tab.id)).map((tab) => tab.id)
+      : [],
   };
 }

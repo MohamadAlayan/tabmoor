@@ -31,6 +31,14 @@ Firefox opens, without duplicates.
   4. Move pinned tabs into list order.
 - Links stored in `storage.sync` (follows the user's Firefox account).
 
+## Added after the competitor review (2026-11-24)
+- **Window rescue:** when the window holding the pinned tabs is closed and another normal
+  window remains, restore the list there (restore only: nothing is closed in that window).
+  The managed window id is kept in `storage.session`.
+- **Tab groups:** an unpinned tab inside a tab group (`groupId !== -1`) is never reused/pinned.
+- **Setting `closeUnlisted`** (default on, stored in `storage.sync` under `settings`):
+  when off, unlisted pinned tabs are kept after the user's pinned tabs.
+
 ## Builder's calls
 - **Matching rule:** a tab matches a saved link when it has the same host and its
   path starts with the saved link's path (query/hash ignored). Most specific

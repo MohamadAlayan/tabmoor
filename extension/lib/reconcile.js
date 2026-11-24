@@ -6,12 +6,12 @@ import { planReconcile } from './match.js';
 
 /**
  * Make the pinned tabs in one window match `links`:
- * pin reused tabs, open missing links, close unlisted pinned tabs, then sort.
- * An empty list does nothing.
+ * pin reused tabs, open missing links, close unlisted pinned tabs
+ * (unless `closeUnlisted` is false), then sort. An empty list does nothing.
  */
-export async function reconcileWindow(api, windowId, links) {
+export async function reconcileWindow(api, windowId, links, { closeUnlisted = true } = {}) {
   const tabs = await api.tabs.query({ windowId });
-  const plan = planReconcile(tabs, links);
+  const plan = planReconcile(tabs, links, { closeUnlisted });
   const order = [...plan.order];
   const failed = [];
   let opened = 0;
@@ -51,6 +51,23 @@ export async function findMainWindow(api) {
   const windows = await api.windows.getAll({ windowTypes: ['normal'] });
   const usable = windows.filter((w) => !w.incognito && (w.type ?? 'normal') === 'normal');
   return usable.find((w) => w.focused) ?? usable[0] ?? null;
+}
+
+/**
+ * Firefox throws pinned tabs away when you close the window they live in, even if
+ * another window stays open. When that window was the one Tabmoor manages, wait a
+ * moment (so a full quit can finish), then restore the list in the window that is left.
+ * Restoring only: nothing is closed in that window.
+ *
+ * @returns {Promise<null | {windowId:number, pinned:number, opened:number, closed:number, failed:string[]}>}
+ */
+export async function rescueAfterWindowClosed(api, { removedWindowId, managedWindowId, links, delayMs = 1000 }) {
+  if (managedWindowId == null || removedWindowId !== managedWindowId || !links.length) return null;
+  await new Promise((resolve) => setTimeout(resolve, delayMs));
+  const win = await findMainWindow(api);
+  if (!win) return null;
+  const result = await reconcileWindow(api, win.id, links, { closeUnlisted: false });
+  return { windowId: win.id, ...result };
 }
 
 /**

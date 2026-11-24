@@ -18,7 +18,6 @@
     <p class="muted">
       Every time Firefox starts, these links open as pinned tabs, in this order.
       Tabs that are already open are reused, never duplicated.
-      Pinned tabs that aren't on this list are closed.
     </p>
 
     <form id="add-form" class="add-row">
@@ -36,6 +35,20 @@
       <button id="import">Import pinned tabs from this window</button>
       <button id="apply">Apply to this window now</button>
     </div>
+
+    <h2>Options</h2>
+    <label class="toggle">
+      <input type="checkbox" id="close-unlisted">
+      <span class="toggle-text">
+        <strong>Close pinned tabs that aren't on this list</strong>
+        <span class="muted">Keeps your pinned tabs exactly like the list. Closed one by mistake? Press Ctrl+Shift+T (⌘+Shift+T on Mac) to bring it back.</span>
+      </span>
+    </label>
+
+    <p class="note muted">
+      Closing the window that holds your pinned tabs normally loses them. If another window is still open,
+      Tabmoor brings them back there. Tabs inside tab groups are never moved or pinned.
+    </p>
 
     <p class="tip muted">
       Tip: some sites change their address when they load (gmail.com becomes mail.google.com).
