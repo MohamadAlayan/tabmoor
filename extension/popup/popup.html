@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Tabmoor</title>
+  <link rel="stylesheet" href="../ui.css">
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <header class="brand">
+    <img src="../icons/tabmoor.svg" alt="">
+    <h1>Tabmoor</h1>
+  </header>
+
+  <section>
+    <button id="fix" class="primary">Fix pinned tabs</button>
+    <p class="muted hint">Opens missing links and closes pinned tabs that aren't on your list.</p>
+  </section>
+
+  <section>
+    <button id="add">Add this page</button>
+    <p class="muted hint">Saves the page you're on to your list and pins it.</p>
+  </section>
+
+  <p id="status" class="status" role="status"></p>
+
+  <footer>
+    <a href="#" id="settings">Edit my links →</a>
+    <span id="count" class="muted"></span>
+  </footer>
+
+  <script type="module" src="popup.js"></script>
+</body>
+</html>

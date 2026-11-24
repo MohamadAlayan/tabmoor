@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Tabmoor settings</title>
+  <link rel="icon" href="../icons/tabmoor-small.svg">
+  <link rel="stylesheet" href="../ui.css">
+  <link rel="stylesheet" href="options.css">
+</head>
+<body>
+  <main>
+    <header class="brand">
+      <img src="../icons/tabmoor.svg" alt="">
+      <h1>Tabmoor</h1>
+    </header>
+
+    <h2>Your pinned tabs</h2>
+    <p class="muted">
+      Every time Firefox starts, these links open as pinned tabs, in this order.
+      Tabs that are already open are reused, never duplicated.
+      Pinned tabs that aren't on this list are closed.
+    </p>
+
+    <form id="add-form" class="add-row">
+      <input id="new-link" type="text" placeholder="Paste a link, e.g. mail.google.com" autocomplete="off" aria-label="Link to add">
+      <button class="primary" type="submit">Add</button>
+    </form>
+    <p id="status" class="status" role="status"></p>
+
+    <ol id="list" class="link-list"></ol>
+    <p id="empty" class="empty muted" hidden>
+      No links yet. Add one above, or import the tabs you have pinned right now.
+    </p>
+
+    <div class="actions">
+      <button id="import">Import pinned tabs from this window</button>
+      <button id="apply">Apply to this window now</button>
+    </div>
+
+    <p class="tip muted">
+      Tip: some sites change their address when they load (gmail.com becomes mail.google.com).
+      Adding a page with the Tabmoor toolbar button while you're on it saves the exact address.
+    </p>
+  </main>
+
+  <template id="row">
+    <li class="link-row">
+      <span class="num"></span>
+      <span class="text">
+        <strong class="host"></strong>
+        <span class="url muted"></span>
+      </span>
+      <span class="row-buttons">
+        <button class="up" title="Move up" aria-label="Move up">↑</button>
+        <button class="down" title="Move down" aria-label="Move down">↓</button>
+        <button class="remove" title="Remove" aria-label="Remove">✕</button>
+      </span>
+    </li>
+  </template>
+
+  <script type="module" src="options.js"></script>
+</body>
+</html>

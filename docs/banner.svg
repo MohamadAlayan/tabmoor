@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 400" width="1280" height="400">
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#0B2A45"/>
+      <stop offset="1" stop-color="#061726"/>
+    </linearGradient>
+    <linearGradient id="tm-bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#22C3B5"/>
+      <stop offset="0.55" stop-color="#0F7A9C"/>
+      <stop offset="1" stop-color="#0B3D66"/>
+    </linearGradient>
+  </defs>
+  <rect width="1280" height="400" rx="24" fill="url(#sky)"/>
+  <!-- soft waves -->
+  <path d="M0 330 C160 300 320 360 480 330 S800 300 960 330 S1200 360 1280 330 V400 H0 Z" fill="#0F7A9C" fill-opacity="0.18"/>
+  <path d="M0 360 C180 335 340 385 520 360 S860 335 1020 360 S1220 385 1280 362 V400 H0 Z" fill="#22C3B5" fill-opacity="0.12"/>
+
+  <!-- logo -->
+  <g transform="translate(150 80) scale(1.875)">
+    <rect width="128" height="128" rx="28" fill="url(#tm-bg)"/>
+    <rect x="24" y="15" width="22" height="16" rx="5" fill="#FFFFFF" fill-opacity="0.55"/>
+    <rect x="53" y="15" width="22" height="16" rx="5" fill="#FFFFFF"/>
+    <rect x="82" y="15" width="22" height="16" rx="5" fill="#FFFFFF" fill-opacity="0.55"/>
+    <g fill="none" stroke="#FFFFFF" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M64 31 V39" stroke-width="5"/>
+      <circle cx="64" cy="46" r="7" stroke-width="7"/>
+      <path d="M64 53 V105" stroke-width="8"/>
+      <path d="M47 64 H81" stroke-width="8"/>
+      <path d="M33 86 C35 100 48 107 64 107 C80 107 93 100 95 86" stroke-width="8"/>
+    </g>
+    <path d="M24 92 L32 76 L42 89 Z" fill="#FFFFFF" stroke="#FFFFFF" stroke-width="3" stroke-linejoin="round"/>
+    <path d="M104 92 L96 76 L86 89 Z" fill="#FFFFFF" stroke="#FFFFFF" stroke-width="3" stroke-linejoin="round"/>
+  </g>
+
+  <text x="470" y="200" fill="#FFFFFF" font-family="Segoe UI, Inter, Helvetica, Arial, sans-serif" font-size="104" font-weight="700" letter-spacing="-1">Tabmoor</text>
+  <text x="474" y="262" fill="#9FE3E0" font-family="Segoe UI, Inter, Helvetica, Arial, sans-serif" font-size="34">Your pinned tabs, moored in place.</text>
+  <text x="474" y="308" fill="#7F99AE" font-family="Segoe UI, Inter, Helvetica, Arial, sans-serif" font-size="22">Firefox add-on · your links as pinned tabs on every start</text>
+</svg>

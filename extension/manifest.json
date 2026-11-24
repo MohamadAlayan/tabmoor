@@ -1,0 +1,40 @@
+{
+  "manifest_version": 3,
+  "name": "Tabmoor",
+  "version": "1.0.0",
+  "description": "Keeps your favourite links open as pinned tabs every time Firefox starts. No duplicates, no lost tabs.",
+  "icons": {
+    "16": "icons/tabmoor-small.svg",
+    "32": "icons/tabmoor-small.svg",
+    "48": "icons/tabmoor.svg",
+    "96": "icons/tabmoor.svg",
+    "128": "icons/tabmoor.svg"
+  },
+  "permissions": ["tabs", "storage"],
+  "background": {
+    "scripts": ["background.js"],
+    "type": "module"
+  },
+  "action": {
+    "default_title": "Tabmoor",
+    "default_popup": "popup/popup.html",
+    "default_area": "navbar",
+    "default_icon": {
+      "16": "icons/tabmoor-small.svg",
+      "32": "icons/tabmoor-small.svg"
+    }
+  },
+  "options_ui": {
+    "page": "options/options.html",
+    "open_in_tab": true
+  },
+  "browser_specific_settings": {
+    "gecko": {
+      "id": "{52f86f69-b7d2-4e98-83b2-470056426bdd}",
+      "strict_min_version": "140.0",
+      "data_collection_permissions": {
+        "required": ["none"]
+      }
+    }
+  }
+}
