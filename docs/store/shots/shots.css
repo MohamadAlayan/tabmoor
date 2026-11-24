@@ -1,0 +1,73 @@
+/* Layout for 1280×800 store screenshots. */
+* { box-sizing: border-box; }
+html, body { margin: 0; width: 1280px; height: 800px; overflow: hidden; }
+body {
+  font: 16px/1.5 "Segoe UI", system-ui, sans-serif;
+  color: #0b2a45;
+  background:
+    radial-gradient(900px 500px at 15% 10%, #d8f3f0 0%, transparent 70%),
+    linear-gradient(135deg, #eef7f9 0%, #dcebf2 100%);
+  display: flex;
+  align-items: center;
+  gap: 56px;
+  padding: 0 64px;
+}
+
+.copy { width: 400px; flex: none; }
+.brand { display: flex; align-items: center; gap: 12px; font-weight: 700; font-size: 22px; }
+.brand img { width: 44px; height: 44px; }
+h1 { font-size: 40px; line-height: 1.15; margin: 22px 0 18px; letter-spacing: -0.5px; }
+ul { margin: 0; padding: 0; list-style: none; display: grid; gap: 12px; }
+li { padding-left: 30px; position: relative; color: #29465e; font-size: 17px; }
+li::before {
+  content: "";
+  position: absolute; left: 0; top: 6px;
+  width: 16px; height: 16px; border-radius: 5px;
+  background: linear-gradient(135deg, #22c3b5, #0f7a9c);
+}
+
+.frame { border-radius: 16px; overflow: hidden; background: #fff; box-shadow: 0 24px 60px rgba(11, 42, 69, 0.22); }
+.frame iframe { border: 0; display: block; width: 100%; height: 100%; }
+.frame.settings { width: 720px; height: 700px; background: #2a2a33; }
+.frame.settings iframe {
+  width: 923px; height: 897px;          /* 720×700 at 78% */
+  transform: scale(0.78);
+  transform-origin: 0 0;
+}
+
+/* Mock Firefox window (dark theme) for the popup shot */
+.window {
+  position: relative;
+  width: 700px; height: 600px; flex: none;
+  border-radius: 14px; overflow: visible;
+  background: #1c1b22;
+  box-shadow: 0 24px 60px rgba(11, 42, 69, 0.28);
+}
+.tabstrip {
+  display: flex; align-items: center; gap: 6px;
+  height: 44px; padding: 0 10px;
+  background: #0f0e13; border-radius: 14px 14px 0 0;
+}
+.pin {
+  width: 34px; height: 30px; border-radius: 8px;
+  display: grid; place-items: center;
+  background: #2b2a33; color: var(--c); font-weight: 800; font-size: 15px;
+  box-shadow: inset 0 -2px 0 var(--c);
+}
+.tab { height: 30px; padding: 0 14px; display: flex; align-items: center; border-radius: 8px; font-size: 13px; color: #fbfbfe; }
+.tab.active { background: #42414d; width: 200px; }
+.toolbar {
+  display: flex; align-items: center; gap: 10px;
+  height: 44px; padding: 0 12px; background: #2b2a33; border-bottom: 1px solid #0f0e13;
+}
+.nav { color: #9e9ea6; width: 40px; }
+.url { flex: 1; height: 30px; border-radius: 8px; background: #1c1b22; color: #9e9ea6; font-size: 13px; display: flex; align-items: center; padding: 0 12px; }
+.ext { width: 32px; height: 32px; border-radius: 8px; background: #52525e; display: grid; place-items: center; }
+.ext img { width: 18px; height: 18px; }
+.page { height: calc(100% - 88px); }
+.frame.popup {
+  position: absolute; right: 8px; top: 92px;
+  width: 300px; height: 330px;
+  border: 1px solid #3d3d48;
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.45);
+}

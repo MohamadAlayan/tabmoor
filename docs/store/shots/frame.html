@@ -1,0 +1,14 @@
+<!doctype html>
+<meta charset="utf-8">
+<script>
+  // Loads a real add-on page (popup or options) with the demo browser API injected first.
+  (async () => {
+    const page = new URLSearchParams(location.search).get('page') === 'popup' ? 'popup/popup' : 'options/options';
+    const dir = `/extension/${page.split('/')[0]}/`;
+    let html = await (await fetch(`/extension/${page}.html`)).text();
+    html = html.replace('<head>', `<head><base href="${dir}"><script src="/docs/store/shots/fake-browser.js"><\/script>`);
+    document.open();
+    document.write(html);
+    document.close();
+  })();
+</script>
