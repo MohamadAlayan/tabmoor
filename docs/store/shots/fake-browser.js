@@ -3,11 +3,11 @@
 (() => {
   const store = {
     links: [
-      'https://mail.google.com/mail/u/0/',
-      'https://calendar.google.com/calendar/u/0/r',
-      'https://github.com/notifications',
-      'https://web.whatsapp.com/',
-      'https://www.notion.so/my-workspace',
+      'https://www.google.com/',
+      'https://www.youtube.com/',
+      'https://www.wikipedia.org/',
+      'https://www.apple.com/',
+      'https://www.amazon.com/',
     ],
     settings: { closeUnlisted: true },
   };
