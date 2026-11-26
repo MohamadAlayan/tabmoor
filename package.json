@@ -1,6 +1,6 @@
 {
   "name": "tabmoor",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "private": true,
   "description": "Firefox add-on that keeps your favourite links open as pinned tabs every time Firefox starts.",
   "type": "module",

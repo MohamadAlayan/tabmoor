@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "Tabmoor",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Keeps your favourite links open as pinned tabs every time Firefox starts. No duplicates, no lost tabs.",
   "homepage_url": "https://github.com/MohamadAlayan/tabmoor",
   "icons": {
